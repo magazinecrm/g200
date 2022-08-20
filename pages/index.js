@@ -1,8 +1,35 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useState } from "react";
 
 export default function Home() {
+  const [firstName, setFirstName] = useState("");
+
+  const resetInputFields = () => {
+    setTimeout(() => {
+      setFirstName("");
+    }, 3000);
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const body = {firstName};
+      await fetch("/api/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    console.log('bbebebeebe');
+  
+    alert('aaaa')
+   
+    } catch (error) {
+      console.error(error);
+    }
+  };
+ 
   return (
     <div className={styles.container}>
       <Head>
@@ -20,7 +47,22 @@ export default function Home() {
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
         </p>
-
+<form className="form" onSubmit={submitHandler}>
+            <input
+              type="text"
+              className="form-field"
+              placeholder="First Name"
+              autoFocus
+              onChange={(e) => setFirstName(e.target.value)}
+              value={firstName}
+            />
+             <input
+              type="submit"
+              value="Submit"
+              className="submit-btn"
+              onClick={resetInputFields}
+            />
+            </form>
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h2>Documentation &rarr;</h2>
